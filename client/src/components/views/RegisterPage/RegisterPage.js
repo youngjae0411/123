@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import moment from "moment";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
-import  FileUpload from "./Sections/FileUpload"
-
+import FileUpload from "./Sections/FileUpload";
 
 import {
   Form,
@@ -41,22 +40,21 @@ function RegisterPage(props) {
   const [images, setImages] = useState('');
 
   const dispatch = useDispatch();
-
   return (
 
     <Formik
       initialValues={{
         email: '',
+        image: '',
         name: '',
         password: '',
-        confirmPassword: '',
-        image: ''
+        confirmPassword: ''
       }}
       validationSchema={Yup.object().shape({
-        image: Yup.string()
-        .required('Profile is required'),  
         name: Yup.string()
           .required('Name is required'),
+          image: Yup.string()
+          .required('image is required'),
         email: Yup.string()
           .email('Email is invalid')
           .required('Email is required'),
@@ -74,7 +72,7 @@ function RegisterPage(props) {
             email: values.email,
             password: values.password,
             name: values.name,
-            image: images
+            image: `http://localhost:5000/${images}`
           };
 
           console.log(dataToSubmit)
@@ -107,19 +105,11 @@ function RegisterPage(props) {
         const updataImages = (newImages) => {
           setImages(newImages);
         };
+
         return (
           <div className="app">
             <h2>Sign up</h2>
             <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
-
-            <Form.Item required label="image">
-              <FileUpload 
-                onChange={handleChange} 
-                onBlur={handleBlur} 
-                fileToParents={updataImages}
-                value={values.image}
-              />
-            </Form.Item>
 
               <Form.Item required label="Name">
                 <Input
@@ -136,6 +126,18 @@ function RegisterPage(props) {
                 {errors.name && touched.name && (
                   <div className="input-feedback">{errors.name}</div>
                 )}
+              </Form.Item>
+
+              <Form.Item required label="image">
+              <FileUpload fileToParents={updataImages}></FileUpload>
+                <Input
+                  id="image"
+                  placeholder="Enter your image"
+                  type="file"
+                  value={values.image}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
               </Form.Item>
 
               <Form.Item required label="Email" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
