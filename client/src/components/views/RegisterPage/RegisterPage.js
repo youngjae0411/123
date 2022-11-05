@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from "../../../_actions/user_actions";
 import { useDispatch } from "react-redux";
+import  FileUpload from "./Sections/FileUpload"
+
 
 import {
   Form,
@@ -35,7 +37,11 @@ const tailFormItemLayout = {
 };
 
 function RegisterPage(props) {
+
+  const [images, setImages] = useState('');
+
   const dispatch = useDispatch();
+
   return (
 
     <Formik
@@ -43,9 +49,12 @@ function RegisterPage(props) {
         email: '',
         name: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        image: ''
       }}
       validationSchema={Yup.object().shape({
+        image: Yup.string()
+        .required('Profile is required'),  
         name: Yup.string()
           .required('Name is required'),
         email: Yup.string()
@@ -65,8 +74,10 @@ function RegisterPage(props) {
             email: values.email,
             password: values.password,
             name: values.name,
-            image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
+            image: images
           };
+
+          console.log(dataToSubmit)
 
           dispatch(registerUser(dataToSubmit)).then(response => {
             if (response.payload.success) {
@@ -92,10 +103,23 @@ function RegisterPage(props) {
           handleSubmit,
           handleReset,
         } = props;
+
+        const updataImages = (newImages) => {
+          setImages(newImages);
+        };
         return (
           <div className="app">
             <h2>Sign up</h2>
             <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
+
+            <Form.Item required label="image">
+              <FileUpload 
+                onChange={handleChange} 
+                onBlur={handleBlur} 
+                fileToParents={updataImages}
+                value={values.image}
+              />
+            </Form.Item>
 
               <Form.Item required label="Name">
                 <Input

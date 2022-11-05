@@ -30,7 +30,9 @@ const storage = multer.diskStorage({
   
    // mime type 체크하여 원하는 타입만 필터링
   
-   if (file.mimetype == 'video/mp4') {
+   if (file.mimetype == 'video/mp4'
+    // || file.mimetype === 'image/png'
+    ) {
   
    cb(null, true);
   
