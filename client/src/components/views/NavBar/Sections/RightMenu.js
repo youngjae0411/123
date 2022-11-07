@@ -5,6 +5,8 @@ import axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import styled from 'styled-components'
+import { $CombinedState } from 'redux';
 
 function RightMenu(props) {
   const user = useSelector(state => state.user)
@@ -18,6 +20,11 @@ function RightMenu(props) {
       }
     });
   };
+
+  
+
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=c6990d3467e9af70cf83eb76db379f0d`
+
 
   if (user.userData && !user.userData.isAuth) {
     return (
@@ -39,6 +46,7 @@ function RightMenu(props) {
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>
+        <img src="" id="img"></img>
       </Menu>
     )
   }

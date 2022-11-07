@@ -8,15 +8,17 @@ const { TextArea } = Input;
 const Title  = Typography;
 
 const PrivateOptions = [
-  {value : 0, label: "Private"},
-  {value : 1, label : "Public"}
+  {value : 0, label: "표준"},
+  {value : 1, label : "통통"},
+  {value : 2, label : "마름"}
 ]
 
 const CategoryOptions = [
-  {value : 0, label: "Film& Animation"},
-  {value : 1, label: "Autos & Vehicles"},
-  {value : 2, label: "Musics"},
-  {value : 3, label: "Pets& Animals"}
+  {value : 0, label: "180CM⬆"},
+  {value : 1, label: "170CM~180CM"},
+  {value : 2, label: "160CM~170CM"},
+  {value : 3, label: "150CM~160CM"},
+  {value : 4, label: "150CM⬇"}
 ]
 
 function VideoUploadPage(props) {
@@ -24,8 +26,8 @@ function VideoUploadPage(props) {
 const user = useSelector(state => state.user);
 const [VideoTitle, setVideoTitle] = useState("")
 const [Description, setDescription] = useState("")
-const [Private, setPrivate] = useState(0)
-const [Category, setCategory] = useState("Film&Animation")
+const [Private, setPrivate] = useState("표준")
+const [Category, setCategory] = useState("180CM⬆")
 const [FilePath, setFilePath] = useState("")
 const [Duration, setfDuration] = useState("")
 const [ThumbnailPath,setThumbnailPath ] = useState("") 
@@ -47,7 +49,7 @@ const onCategoryChange = (e) => {
   setCategory(e.currentTarget.value)
 }
 
-const onDrop = (files) => {
+const onDrop = (files) => { //파일정보가 담겨있음
 
   let formData = new FormData;
   const config = {
@@ -59,17 +61,17 @@ const onDrop = (files) => {
   .then(response => {
     if(response.data.success) {
       console.log(response.data)
-
       let variable = {
         url: response.data.url,
         fileName: response.data.fileName
       }
-
+      
       setFilePath(response.data.url)
 
       Axios.post('/api/video/thumbnail', variable)
       .then(response => {
         if(response.data.success) {
+          console.log(response.data)
           
           setfDuration(response.data.fileDuration)
           setThumbnailPath(response.data.url)
@@ -79,15 +81,52 @@ const onDrop = (files) => {
         }
       })
     } else {
-      alert('업로드에 실패하였습니다. MP4,JPG만 업로드가 가능합니다.')
+      alert('업로드에 실패하였습니다. MP4만 업로드가 가능합니다.')
     }
   })
 }
 
+const onDropImage = (files) => { //파일정보가 담겨있음
+
+  let formData = new FormData;
+  const config = {
+    header: {'content-type' : 'multipart/form-data'}
+  }
+  formData.append("file", files[0])
+
+  Axios.post('/api/video/uploadfilesImage', formData, config)
+  .then(response => {
+    if(response.data.success) {
+
+      let variable = {
+        url: response.data.url,
+        fileName: response.data.fileName,
+        thumbnail : FilePath
+      }
+
+      setFilePath(response.data.url)
+
+      Axios.post('/api/video/thumbnail', variable)
+      .then(response => {
+        if(response.data.success) {
+          
+          setThumbnailPath(response.data.url)
+
+        } else {
+          alert('썸네일 생성에 실패했습니다.')
+        }
+      })
+    } else {
+      alert('업로드에 실패하였습니다. JPG, JPEG, PNG만 업로드가 가능합니다.')
+    }
+  })
+}
+
+
 const onSubmit = (e) => {
   e.preventDefault();
-
-  const variable = {
+  
+  let variable = {
     writer: user.userData._id,
     title: VideoTitle,
     description : Description,
@@ -101,8 +140,9 @@ const onSubmit = (e) => {
   Axios.post('/api/video/uploadVideo', variable)
   .then(response => {
     console.log(response)
+    
     if(response.data.success) {
-
+      
       message.success('비디오 업로드에 성공했습니다')
       setTimeout(() => {
       props.history.push('/')
@@ -141,10 +181,25 @@ const onSubmit = (e) => {
                     maxSize={800000000}
                     >
                       {({ getRootProps, getInputProps}) => (
-                      <div style={{ width: '300px', height : '240px', border: '1px solid lightgray', display: 'flex',
+                      <div style={{ width: '200px', height : '240px', border: '1px solid lightgray', display: 'flex',
                       alignItems: 'center', justifyContent:'center'}} {...getRootProps()}>
                         <input {...getInputProps()} />
-                        <Icon type='plus' style={{ fontsize: '3rem'}} />  
+                       영상 추가
+                      </div>
+                    )}
+
+                    </Dropzone>
+
+                    <Dropzone
+                    onDrop={onDropImage}
+                    multiple={false}
+                    maxSize={800000000}
+                    >
+                      {({ getRootProps, getInputProps}) => (
+                      <div id='imgae' style={{ width: '200px', height : '240px', border: '1px solid lightgray', display: 'flex',
+                      alignItems: 'center', justifyContent:'center'}} {...getRootProps()}>
+                        <input {...getInputProps()} />
+                       사진 추가
                       </div>
                     )}
 
@@ -152,8 +207,8 @@ const onSubmit = (e) => {
                     {/*썸네일*/}
 
                     {ThumbnailPath &&
-                      <div>
-                          <img src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
+                      <div >
+                          <img style = {{width : "320px",height : "240px"}} src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
                       </div>
                     }
 
@@ -171,14 +226,14 @@ const onSubmit = (e) => {
 
                 <select onChange={onPrivateChange}>
                   {PrivateOptions.map((item, index)=> (
-                    <option key={index} value={item.value}>{item.label}</option>
+                    <option key={index} value={item.label}>{item.label}</option>
                   ))}
                 </select>
                 <br/>
                 <br/>
                 <select onChange={onCategoryChange}>
                   {CategoryOptions.map((item, index)=> (
-                      <option key={index} value={item.value}>{item.label}</option>
+                      <option key={index} value={item.label}>{item.label}</option>
                     ))}
                 </select>
                 <br/>

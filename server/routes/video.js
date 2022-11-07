@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Video } = require("../models/Video");
+const sharp = require('sharp');
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer")
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
 
   destination: (req, file, cb) => {
   
-   cb(null, 'uploads/')
+   cb(null, 'uploads/videos/')
   
    },
   
@@ -24,27 +25,26 @@ const storage = multer.diskStorage({
    }
   
   })
+
+    
   
   
   const fileFilter = (req, file, cb) => {
   
    // mime type 체크하여 원하는 타입만 필터링
   
-   if (file.mimetype == 'video/mp4'
-    // || file.mimetype === 'image/png'
-    ) {
+   if (file.mimetype === 'video/mp4') {
   
    cb(null, true);
   
    } else {
   
-   cb({msg:'mp4 파일만 업로드 가능합니다.'}, false);
-  
+   cb({msg:'MP4.JPG 파일만 업로드 가능합니다.'}, false);
+
    }
-  
-  
-  
   }
+
+
 
 const upload = multer({ storage: storage, fileFilter: fileFilter}).single("file")
 
@@ -62,6 +62,9 @@ router.post("/uploadfiles", (req, res) => {
     return res.json({ success : true, url : res.req.file.path, fileName : res.req.file.filename})
   })
 })
+
+
+
 
 router.post("/uploadVideo", (req, res) => {
   //비디오 정보를 저장한다.
@@ -131,6 +134,8 @@ router.post('/thumbnail', (req, res) => {
     console.log(metadata.format.duration);
     fileDuration = metadata.format.duration
   })
+
+  
   
 
   //썸네일 생성 
@@ -152,11 +157,68 @@ router.post('/thumbnail', (req, res) => {
   .screenshot({
     //Will take screenshots at 20%, 40%, 60% and 80% of videos
 
-    count : 3,
+    count : 1,
     folder: 'uploads/thumbnails',
     size: '320x240',
-    //%b : input basename
-    filename: 'thumbnail-%b.png'
+    filename: '%b.jpg'
   })
 })
+
+//=================================
+//              Image
+//=================================
+
+const storageImage = multer.diskStorage({
+
+  destination: (req, file, cb) => {
+  
+   cb(null, 'uploads/thumbnails/')
+  
+   },
+  
+  filename: (req, file, cb) => {
+  
+   cb(null, `${Date.now()}_${file.originalname}`)
+  
+   }
+  
+  })
+
+
+  const fileFilterImage = (req, file, cb) => {
+
+    if(file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype ===  'image/png'){
+        cb(null,true);
+
+    } else {
+
+        cb({message: 'MP4, JPG, JPEG, PNG 파일만 업로드 가능합니다.'}, false)
+  }
+}
+const uploadImage = multer({ storage: storageImage, limits: {fileSize: 4096 * 4096}, fileFilter: fileFilterImage}).single("file")
+
+router.post("/uploadfilesImage", (req, res) => {
+  //이미지를 서버에 저장
+
+  uploadImage(req,res, err => {
+    if(err) {
+      return res.json({ success : false, err})
+    }
+    return res.json({ success : true, url : res.req.file.path, fileName : res.req.file.filename})
+  })
+})
+
+// router.post('/thumbnailimage', (req, res, next) => {
+
+//   console.log(req)
+//   // try{
+//   //   sharp('uploads/images/' + filename[0])	// 리사이징할 파일의 경로
+//   //       .resize(320,240)	// 원본 비율 유지하면서 width 크기만 설정
+//   //       .withMetadata()
+//   //       .png({quality : 100})
+//   //       .toFile('uploads/thumbnails', '%b.jpg')
+//   // }catch(err){
+//   //     console.log(err)
+//   // }
+// })
 module.exports = router;

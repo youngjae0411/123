@@ -19,9 +19,14 @@ function SideVideo() {
   },[])
 
   const renderSideVideo = SideVideos.map((video, index)=> {
-
+    
+    if(video.duration == ""){
+      minutes = ""
+      seconds = ""
+    } else {
     var minutes = Math.floor(video.duration / 60);
-    var seconds = Math.floor((video.duration - minutes * 60))
+    var seconds = `: ${Math.floor((video.duration - minutes * 60))}`
+    }
 
     return     <div key={index} style={{display: 'flex', marginBottom: '1rem', padding: '0 2rem'}}>
     <div style={{width: '40%', marginRight: '0.5rem'}}>
@@ -30,12 +35,14 @@ function SideVideo() {
       </a>
     </div>
   <div style={{width : '50%'}}>
-    <a style={{color : 'gray'}}>
+    <a  href={`/video/${video._id}`} style={{color : 'gray'}}>
       <span style={{fontSize : '1rem', color: 'black'}}> {video.title}</span><br />
+      </a>
+      <div style={{color: 'gray'}}>
       <span>{video.writer.name}</span><br />
-      <span>{video.views}</span><br />
-      <span>{minutes} : {seconds}</span>
-    </a>
+
+      <span>{minutes}  {seconds}</span>
+      </div>
   </div>
   </div>
   })
