@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Menu } from 'antd';
 import axios from 'axios';
@@ -53,4 +52,3 @@ function RightMenu(props) {
 }
 
 export default withRouter(RightMenu);
-

@@ -113,11 +113,11 @@ const onDropImage = (files) => { //파일정보가 담겨있음
           setThumbnailPath(response.data.url)
 
         } else {
-          alert('썸네일 생성에 실패했습니다.')
+          alert('썸네일 생성에 실패했습니다. JPG만 업로드 가능합니다.')
         }
       })
     } else {
-      alert('업로드에 실패하였습니다. JPG, JPEG, PNG만 업로드가 가능합니다.')
+      alert('업로드에 실패하였습니다. JPG만 업로드가 가능합니다.')
     }
   })
 }
