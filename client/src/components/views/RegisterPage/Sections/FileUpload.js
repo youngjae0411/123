@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import styled from 'styled-components';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 //=================================
 //       File-Upload
@@ -11,6 +13,8 @@ const FileUpload = (props) => {
   //     State-Hook
   const [previewImg, setPreviewImg] = useState([]);
   //=================================
+
+
 
   const handleFileOnChange = (event) => {
     event.preventDefault();
@@ -52,7 +56,6 @@ const FileUpload = (props) => {
     );
   }
   //=================================
-
   return (
     <>
       <form encType="multipart/form-data" style={{ display: 'flex' }}>
@@ -68,6 +71,7 @@ const FileUpload = (props) => {
       </form>
     </>
   );
+
 };
 
 //=================================

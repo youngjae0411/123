@@ -31,14 +31,14 @@ function SideVideo() {
     return     <div key={index} style={{display: 'flex', marginBottom: '1rem', padding: '0 2rem'}}>
     <div style={{width: '40%', marginRight: '0.5rem'}}>
       <a href={`/video/${video._id}`} style={{ color:'gray' }}>
-        <img style={{width: '100%', height: "100%"}} src={`http://localhost:5000/${video.thumbnail}`} alt="thumbnail" />
+        <img style={{width: '144px', height: "108px"}} src={`http://localhost:5000/${video.thumbnail}`} alt="thumbnail" />
       </a>
     </div>
   <div style={{width : '50%'}}>
     <a  href={`/video/${video._id}`} style={{color : 'gray'}}>
-      <span style={{fontSize : '1rem', color: 'black'}}> {video.title}</span><br />
+      <span style={{marginLeft : '0.4rem',fontSize : '1rem', color: 'black'}}> {video.title}</span><br />
       </a>
-      <div style={{color: 'gray'}}>
+      <div style={{marginLeft : '0.4rem',color: 'gray'}}>
       <span>{video.writer.name}</span><br />
 
       <span>{minutes}  {seconds}</span>

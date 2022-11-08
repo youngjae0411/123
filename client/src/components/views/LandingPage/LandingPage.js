@@ -28,9 +28,11 @@ function LandingPage() {
     if(video.duration == ""){
       minutes = ""
       seconds = ""
+
     } else {
     var minutes = Math.floor(video.duration / 60);
     var seconds = `: ${Math.floor((video.duration - minutes * 60))}`
+
     }
     
     console.log(video)
@@ -39,7 +41,7 @@ function LandingPage() {
       <a href={`/video/${video._id}`} >
       <img  style={{ width: '100%', height: "240px" }} alt="thumbnail" src={`http://localhost:5000/${video.thumbnail}`} />
       <div className='duration'>
-          <span>{minutes}  {seconds}</span>
+          <span><b>{minutes}{seconds}</b></span>
         </div>
         </a> 
       </div> 
@@ -50,7 +52,7 @@ function LandingPage() {
           }
     title={video.title}  
     description="" />
-    <span style={{}}>{video.writer.name}</span><br/>
+    <span style={{}}>{video.writer.name}</span><br/> 
     <span style={{ marginLeft: '3rem'}}></span><span> {moment(video.createdAt).format("MMM Do YY")} </span>
     </Col>
 

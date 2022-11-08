@@ -5,6 +5,7 @@ import SideVideo from './Sections/SideVideo'
 import Subscribe from './Sections/Subscribe'
 import Comment from './Sections/Comment'
 import LikeDislikes from './Sections/LikeDislikes'
+import  ReactPlayer from 'react-player'
 
 
 function VideoDetailPage(props) {
@@ -55,7 +56,7 @@ const refreshFunction = (newComment) => {
     <Row gutter={[16, 16]}>
       <Col lg={18} xs={24}>
       <div style={{ width : '100%',height: '50%', padding : '3rem 4rem'}}>
-        <video style={{width: '100%'}} src={`http://localhost:5000/${VideoDetail.filePath}`} controls />
+        <ReactPlayer  volume={0.5} width='100%' height='100%' url={`http://localhost:5000/${VideoDetail.filePath}`} controls />
 
         <List.Item
           actions={[<LikeDislikes   video userId={localStorage.getItem('userId')} videoId={videoId} />, subscribeButton]}

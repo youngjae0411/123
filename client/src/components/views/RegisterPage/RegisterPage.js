@@ -45,7 +45,6 @@ function RegisterPage(props) {
     <Formik
       initialValues={{
         email: '',
-        image: '',
         name: '',
         password: '',
         confirmPassword: ''
@@ -53,8 +52,6 @@ function RegisterPage(props) {
       validationSchema={Yup.object().shape({
         name: Yup.string()
           .required('Name is required'),
-          image: Yup.string()
-          .required('image is required'),
         email: Yup.string()
           .email('Email is invalid')
           .required('Email is required'),
@@ -111,6 +108,10 @@ function RegisterPage(props) {
             <h2>Sign up</h2>
             <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
 
+              <Form.Item required label="Image">
+                <FileUpload fileToParents={updataImages}></FileUpload>
+              </Form.Item>
+
               <Form.Item required label="Name">
                 <Input
                   id="name"
@@ -128,17 +129,7 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="image">
-              <FileUpload fileToParents={updataImages}></FileUpload>
-                <Input
-                  id="image"
-                  placeholder="Enter your image"
-                  type="file"
-                  value={values.image}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-              </Form.Item>
+
 
               <Form.Item required label="Email" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
                 <Input

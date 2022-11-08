@@ -104,6 +104,8 @@ const onDropImage = (files) => { //파일정보가 담겨있음
         thumbnail : FilePath
       }
 
+   
+
       setFilePath(response.data.url)
 
       Axios.post('/api/video/thumbnail', variable)
@@ -113,10 +115,12 @@ const onDropImage = (files) => { //파일정보가 담겨있음
           setThumbnailPath(response.data.url)
 
         } else {
+          console.log(response.data)
           alert('썸네일 생성에 실패했습니다. JPG만 업로드 가능합니다.')
         }
       })
     } else {
+      console.log(response.data)
       alert('업로드에 실패하였습니다. JPG만 업로드가 가능합니다.')
     }
   })
@@ -165,7 +169,7 @@ const onSubmit = (e) => {
                     textAlign: 'center',
                     marginBottom: '2rem'
                 }}>
-                <Title level={2}>Upload Video</Title>
+                <Title level={2}>Upload</Title>
             </div>
             <Form onSubmit={onSubmit}>
                 <div
@@ -194,6 +198,7 @@ const onSubmit = (e) => {
                     onDrop={onDropImage}
                     multiple={false}
                     maxSize={800000000}
+                    accept="image/jpg"
                     >
                       {({ getRootProps, getInputProps}) => (
                       <div id='imgae' style={{ width: '200px', height : '240px', border: '1px solid lightgray', display: 'flex',

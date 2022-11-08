@@ -42,14 +42,14 @@ class Weather extends Component {
 
     }
     // 날씨 정보 출력
-    render() {
-        const imgSrc = `http://openweathermap.com/img/w/${this.state.icon}.png`;
+    render() { 
+        const imgSrc = `http://openweathermap.com/img/wn/${this.state.icon}.png`;
         if (this.state.loading) {
             return <p>Loading</p>;
         } else {
             return (
                 <div className="App">
-                  <a href='https://weather.naver.com/'><img src={imgSrc}/></a> 
+                  <a href='https://weather.naver.com/' target='_blank'><img src={imgSrc}/></a> 
                 </div>
             );
         }
