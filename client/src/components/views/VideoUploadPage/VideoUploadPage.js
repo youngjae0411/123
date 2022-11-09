@@ -213,7 +213,7 @@ const onSubmit = (e) => {
 
                     {ThumbnailPath &&
                       <div >
-                          <img style = {{width : "320px",height : "240px"}} src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
+                          <img style = {{width : "320px",height : "240px"}} src={`http://3.38.92.249:5000/${ThumbnailPath}`} alt="thumbnail" />
                       </div>
                     }
 

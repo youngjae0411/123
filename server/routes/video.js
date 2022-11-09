@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { Video } = require("../models/Video");
-const sharp = require('sharp');
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer")
@@ -208,17 +207,4 @@ router.post("/uploadfilesImage", (req, res) => {
   })
 })
 
-// router.post('/thumbnailimage', (req, res, next) => {
-
-//   console.log(req)
-//   // try{
-//   //   sharp('uploads/images/' + filename[0])	// 리사이징할 파일의 경로
-//   //       .resize(320,240)	// 원본 비율 유지하면서 width 크기만 설정
-//   //       .withMetadata()
-//   //       .png({quality : 100})
-//   //       .toFile('uploads/thumbnails', '%b.jpg')
-//   // }catch(err){
-//   //     console.log(err)
-//   // }
-// })
 module.exports = router;

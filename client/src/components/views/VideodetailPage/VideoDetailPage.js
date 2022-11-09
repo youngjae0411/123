@@ -96,7 +96,7 @@ const refreshFunction = (newComment) => {
   <Row gutter={[16, 16]}>
     <Col lg={18} xs={24}>
     <div style={{ width : '100%', padding : '3rem 4rem'}}>
-    <img style={{width: '80%', paddingLeft: '15rem'}} src={`http://localhost:5000/${VideoDetail.filePath}`} controls />
+    <img style={{width: '80%', paddingLeft: '15rem'}} src={`http://3.38.92.249:5000/${VideoDetail.filePath}`} controls />
       <List.Item
         actions={[<LikeDislikes   video userId={localStorage.getItem('userId')} videoId={videoId} />, subscribeButton]}
       >
