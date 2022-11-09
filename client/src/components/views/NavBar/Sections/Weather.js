@@ -44,7 +44,7 @@ class Weather extends Component {
     // 날씨 정보 출력
     render() { 
         console.log(this.state.icon)
-        const imgSrc = `http://localhost:5000/uploads/icon/${this.state.icon}.png`
+        const imgSrc = `http://3.38.92.249:5000/uploads/icon/${this.state.icon}.png`
         if (this.state.loading) {
             return <p>Loading</p>;
         } else {

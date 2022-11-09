@@ -88,7 +88,7 @@ const FakeUploadBtn = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-image: url('http://localhost:5000/uploads/icon/profile.png');
+  background-image: url('http://3.38.92.249:5000/uploads/icon/profile.png');
   background-repeat : no-repeat;
   background-size : cover;
 `;

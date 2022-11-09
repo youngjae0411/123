@@ -19,7 +19,7 @@ function NavBar() {
     <nav className="menu" style={{ position: 'fixed', zIndex: 5, width: '100%' }}>
 
       <div style={{display : "inline"}} className="menu__logo">
-        <img style={{marginBottom : "0.4rem"}} src='http://localhost:5000/uploads/icon/icon.png'></img>
+        <img style={{marginBottom : "0.4rem"}} src='http://3.38.92.249:5000/uploads/icon/icon.png'></img>
         <a href="/">OOTD</a>
       </div>
       <div className="menu__container">

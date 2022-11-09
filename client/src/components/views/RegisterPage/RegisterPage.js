@@ -69,7 +69,7 @@ function RegisterPage(props) {
             email: values.email,
             password: values.password,
             name: values.name,
-            image: `http://localhost:5000/${images}`
+            image: `http://3.38.92.249:5000/${images}`
           };
 
           console.log(dataToSubmit)
