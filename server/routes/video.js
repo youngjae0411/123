@@ -187,12 +187,12 @@ const storageImage = multer.diskStorage({
 
   const fileFilterImage = (req, file, cb) => {
 
-    if(file.mimetype === 'image/jpg'){
+    if(file.mimetype === 'image/jpg' ||  file.mimetype === 'image/jpeg' ){
         cb(null,true);
 
     } else {
 
-        cb({message: 'MP4, JPG, JPEG, PNG 파일만 업로드 가능합니다.'}, false)
+        cb({message: 'JPG 파일만 업로드 가능합니다.'}, false)
   }
 }
 const uploadImage = multer({ storage: storageImage, limits: {fileSize: 4096 * 4096}, fileFilter: fileFilterImage}).single("file")

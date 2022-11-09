@@ -43,13 +43,14 @@ class Weather extends Component {
     }
     // 날씨 정보 출력
     render() { 
-        const imgSrc = `http://openweathermap.com/img/wn/${this.state.icon}.png`;
+        console.log(this.state.icon)
+        const imgSrc = `http://localhost:5000/uploads/icon/${this.state.icon}.png`
         if (this.state.loading) {
             return <p>Loading</p>;
         } else {
             return (
                 <div className="App">
-                  <a href='https://weather.naver.com/' target='_blank'><img src={imgSrc}/></a> 
+                  <a href='https://openweathermap.org/city/1835848' target='_blank'><img style={{marginBottom : "0.4rem"}} src={imgSrc}/></a> 
                 </div>
             );
         }

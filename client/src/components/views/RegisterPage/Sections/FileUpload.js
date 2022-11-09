@@ -58,7 +58,7 @@ const FileUpload = (props) => {
   //=================================
   return (
     <>
-      <form encType="multipart/form-data" style={{ display: 'flex' }}>
+      <form encType="multipart/form-data" style={{ display: 'flex', marginLeft: '0.7rem' }}>
         <FakeUploadBtn>{profile_preview}</FakeUploadBtn>
         <UploadButton
           id='image'
@@ -82,13 +82,13 @@ const FakeUploadBtn = styled.div`
   display: flex;
   overflow: hidden;
   position: relative;
-  width: 120px;
+  width: 150px;
   height: 120px;
   justify-content: center;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-image: url('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+  background-image: url('http://localhost:5000/uploads/icon/profile.png');
   background-repeat : no-repeat;
   background-size : cover;
 `;
