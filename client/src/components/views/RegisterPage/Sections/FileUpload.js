@@ -57,6 +57,7 @@ const FileUpload = (props) => {
   }
   //=================================
   return (
+
     <>
       <form encType="multipart/form-data" style={{ display: 'flex', marginLeft: '0.7rem' }}>
         <FakeUploadBtn>{profile_preview}</FakeUploadBtn>

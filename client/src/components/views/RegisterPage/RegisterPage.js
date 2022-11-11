@@ -60,7 +60,6 @@ function RegisterPage(props) {
           .required('Password is required'),
         confirmPassword: Yup.string()
           .oneOf([Yup.ref('password'), null], 'Passwords must match')
-          .required('Confirm Password is required')
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
@@ -78,7 +77,8 @@ function RegisterPage(props) {
             if (response.payload.success) {
               props.history.push("/login");
             } else {
-              alert(response.payload.err.errmsg)
+              console.log(response.payload.err.errmsg)
+              alert('이미 사용중인 이메일입니다.')
             }
           })
 
@@ -109,7 +109,9 @@ function RegisterPage(props) {
             <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
 
               <Form.Item required label="Image">
-                <FileUpload fileToParents={updataImages}></FileUpload>
+                <FileUpload
+                  fileToParents={updataImages}
+                />
               </Form.Item>
 
               <Form.Item required label="Name">

@@ -29,9 +29,9 @@ class Weather extends Component {
 
         // axios 라이브러리 이용
         axios.get(url)
-            .then(responseData => {
-                console.log(responseData);
-                const data = responseData.data;
+            .then(response => {
+                console.log(response);
+                const data = response.data;
                 this.setState({
                     temp: data.main.temp,
                     icon: data.weather[0].icon,
@@ -44,6 +44,8 @@ class Weather extends Component {
     // 날씨 정보 출력
     render() { 
         console.log(this.state.icon)
+        console.log(this.state.temp - 273.15)
+
         const imgSrc = `http://3.38.92.249:5000/uploads/icon/${this.state.icon}.png`
         if (this.state.loading) {
             return <p>Loading</p>;

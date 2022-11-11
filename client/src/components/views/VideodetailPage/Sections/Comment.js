@@ -19,11 +19,13 @@ function Comment(props) {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    const variables = {
+
+    let variables = {
       content: commentValue,
       writer: user.userData._id,
       postId: videoId
     }
+
 
     Axios.post('/api/comment/saveComment',variables)
     .then(response => {
@@ -35,6 +37,26 @@ function Comment(props) {
       }
     })
   }
+  if (user.userData && !user.userData.isAuth){
+  return (
+    <div>
+      <br />
+      <p> 댓글</p>
+      <hr />
+
+      {/* Comment Lists */}
+
+      {props.commentLists && props.commentLists.map((comment, index) => (
+        (!comment.responseTo &&
+        <React.Fragment key={index}>
+          <SingleComment refreshFunction={props.refreshFunction}  comment={comment} postId={props.videoId} />
+          <ReplyComment   refreshFunction={props.refreshFunction}  parentCommentId={comment._id}
+                           postId={props.videoId} commentLists={props.commentLists} />
+        </React.Fragment>  
+      )))}
+    </div>
+  )
+} else {
   return (
     <div>
       <br />
@@ -54,7 +76,6 @@ function Comment(props) {
 
 
       {/* Root Comment Form */}
-
       <form style={{ display: 'flex'}} onSubmit={onSubmit}>
         <textarea
           style={{width: '100%', borderRadius: '5px'}}
@@ -67,6 +88,5 @@ function Comment(props) {
       </form>
     </div>
   )
-}
-
+}}
 export default Comment

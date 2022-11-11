@@ -1,8 +1,12 @@
 import Axios from "axios";
 import React, {useState, useEffect} from "react";
+import {useSelector} from 'react-redux'
+import {Link} from 'react-router-dom';
+
 
 function Subscribe(props) {
-
+  
+  const user = useSelector(state => state.user);
   const [SubscribeNumber, setSubscribeNumber] = useState(0)
   const [Subscribed, setSubscribed] = useState(false)
 
@@ -30,6 +34,10 @@ function Subscribe(props) {
           }
         })
   }, [])
+
+  const onlogin = () => {
+    alert('로그인이 필요합니다.')
+  }
 
   const onSubscribe = () => {
 
@@ -65,7 +73,23 @@ function Subscribe(props) {
 
     }
   }
-  
+  if (user.userData && !user.userData.isAuth){
+    return (
+    <div>
+        <Link style={{ textDecoration: 'none', color: 'rgb' }} to='/login'>
+          <button
+        style={{
+                backgroundColor: '#CC0000', borderRadius: '4px', border : '0',
+                color: 'white', padding : '10px 16px',
+                fontWeight: '500', fontSize: '1rem', textTransform: "uppercase"
+              }}
+              onClick={onlogin}
+      >
+          {SubscribeNumber} {'Follow'}
+      </button>
+      </Link>
+    </div>)
+  } else {
   return (
     <div>
       <button
@@ -80,6 +104,6 @@ function Subscribe(props) {
       </button>
     </div>
   )
-}
+}}
 
 export default Subscribe

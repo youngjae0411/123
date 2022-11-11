@@ -32,6 +32,7 @@ const videoSchema = mongoose.Schema({
   thumbnail: {
     type: String
   }
+  
 }, {timestamps: true})
 
 const Video = mongoose.model('Video', videoSchema);

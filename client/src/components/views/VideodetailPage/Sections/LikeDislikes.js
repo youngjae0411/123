@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
+import {useSelector} from 'react-redux'
 import { Tooltip, Icon} from 'antd'
 import Axios from 'axios'
+import {Link} from 'react-router-dom';
 
 function LikeDislikes(props) {
 
+  const user = useSelector(state => state.user);
   const [Likes, setLikes] = useState(0)
   const [Dislikes, setDislikes] = useState(0)
   const [LikeAction, setLikeAction] = useState(null)
@@ -51,6 +54,10 @@ useEffect(() => {
     })
 
 }, [])
+
+const onlogin = (props) => {
+  alert('로그인이 필요합니다.')
+}
 
 const onLike = () => {
   if(LikeAction === null) {
@@ -116,7 +123,35 @@ const onDislike = () => {
   }
 }
 
+if (user.userData && !user.userData.isAuth){
+  return (
+  <div>
+  <span key="comment-basic-like">
+    <Tooltip title="Like">
+    <Link style={{ textDecoration: 'none', color: 'gray' }} to='/login'>
+      <Icon type='like'
+            theme='outlined'
+            onClick={onlogin}
+      />
+      </Link>
+    </Tooltip>
+    <span style={{ paddingLeft: '8px', cursor: 'auto'}}>{Likes}</span>
+  </span>&nbsp;&nbsp;
 
+  <span key="comment-basic-dislike">
+    <Tooltip title="Dislike">
+      <Link style={{ textDecoration: 'none', color: 'gray' }} to='/login'>
+        <Icon type='dislike'
+            theme='outlined'
+            onClick={onlogin}
+      />
+      </Link>
+    </Tooltip>
+    <span style={{ paddingLeft: '8px', cursor: 'auto'}}>{Dislikes}</span>
+    </span>&nbsp;&nbsp;
+</div>
+  )
+} else {
   return (
     <div>
       <span key="comment-basic-like">
@@ -139,7 +174,8 @@ const onDislike = () => {
         <span style={{ paddingLeft: '8px', cursor: 'auto'}}>{Dislikes}</span>
         </span>&nbsp;&nbsp;
     </div>
-  )
+    )
+  }
 }
 
 export default LikeDislikes

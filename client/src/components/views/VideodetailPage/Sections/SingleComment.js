@@ -1,17 +1,19 @@
 import React, {useState} from 'react'
 import { Comment, Avatar, Button, Input} from 'antd'
 import Axios from 'axios';
-import {useSelector} from 'react-redux'
 import LikeDislikes from './LikeDislikes';
+import {useSelector} from 'react-redux'
 
 
 const { TextArea } = Input;
 
 function SingleComment(props) {
+
    
   const user = useSelector(state => state.user);
   const [OpenReply, setOpenReply] = useState(false)
   const [CommentValue, setCommentValue] = useState("")
+  
 
   const onClickReplyOpen = () => {
     setOpenReply(!OpenReply)
@@ -34,12 +36,14 @@ function SingleComment(props) {
     Axios.post('/api/comment/saveComment',variables)
     .then(response => {
       if(response.data.success){
+        console.log(variables)
         setCommentValue("")
         setOpenReply(false)
         props.refreshFunction(response.data.result);
-        console.log(response.data.result  )
-      } else {
+        console.log(response.data.result)
+      } else  {
         alert('댓글 작성을 실패하였습니다.')
+
       }
     })
 
@@ -47,16 +51,17 @@ function SingleComment(props) {
 
   const actions = [
     <LikeDislikes userId={localStorage.getItem('userId')} commentId ={props.comment._id}/>
-    ,<span onClick={onClickReplyOpen} key = "comment-basic-reply-to">답글달기</span>
+    //<span onClick={onClickReplyOpen} key = "comment-basic-reply-to">답글달기</span>
   ]
   return (
+    
     <div>
-      <Comment
+      {<Comment
           actions={actions}
           author={props.comment.writer.name}
           avatar={<Avatar src={props.comment.writer.image} alt="avatar" />}
           content={ <p>{props.comment.content}</p>}
-      />
+      />}
       
 
       {OpenReply &&
